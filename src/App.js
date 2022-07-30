@@ -51,7 +51,7 @@ class App extends Component {
           className="search-box"
           placeholder="search monsters"
         />
-        <CardList list={filteredMonsters} />
+        <CardList className="card-list" list={filteredMonsters} />
       </div>
     );
   }
