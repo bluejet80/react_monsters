@@ -8,27 +8,56 @@ class App extends Component {
     super();
 
     this.state = {
-      name: "Jarett Young",
-      age: 41,
+      monsters: [],
+      searchField: "",
     };
   }
 
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((responce) => responce.json())
+      .then((users) =>
+        this.setState(
+          () => {
+            return { monsters: users };
+          },
+          () => {
+            console.log(this.state);
+          }
+        )
+      );
+  }
+
+  onSearchChange = (event) => {
+    const searchField = event.target.value.toLocaleLowerCase();
+    this.setState(() => {
+      return { searchField };
+    });
+  };
+
   render() {
+    const { monsters, searchField } = this.state;
+    const { onSearchChange } = this;
+
+    const filteredMonsters = monsters.filter((item) =>
+      item.name.toLocaleLowerCase().includes(searchField)
+    );
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Hi {this.state.name}, your age is {this.state.age}
-          </p>
-          <button
-            onClick={() => {
-              this.setState({ name: "Fred James", age: 64 });
-            }}
-          >
-            Change Name
-          </button>
-        </header>
+        <input
+          className="search-box"
+          type="search"
+          placeholder="search monsters"
+          onChange={onSearchChange}
+        />
+        {filteredMonsters.map((item) => {
+          return (
+            <div key={item.id}>
+              <h1>{item.name}</h1>
+            </div>
+          );
+        })}
       </div>
     );
   }
