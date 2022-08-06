@@ -5,10 +5,11 @@ import SearchBox from "./components/search-box/search-box.component";
 import "./App.css";
 
 const App = () => {
-  console.log("Render");
   const [searchField, setSearchField] = useState(""); //[value, setValue]
   const [monsters, setMonsters] = useState([]);
   const [filteredMonsters, setFilteredMonsters] = useState(monsters);
+
+  console.log("Rendered");
 
   useEffect(() => {
     const newFilteredMonsters = monsters.filter((item) =>
